@@ -1,0 +1,4 @@
+.transparent-gradient {
+    -webkit-mask-image: linear-gradient(to top, rgba(255, 0, 0, 0), hsla(var(--muted)));
+    mask-image: linear-gradient(to top, rgba(255, 0, 0, 0), hsla(var(--muted)));
+}
