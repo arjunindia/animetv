@@ -47,7 +47,6 @@ function Player() {
     focusBoundaryDirections: ["up", "down"],
   });
   const videoRef = useRef<FilePlayerProps["ref"]>(null);
-  const controlRef = useRef<HTMLDivElement>(null);
   const duration = useRef(0);
   const [hidden, setHidden] = useState(false);
   const [videoState, setVideoState] = useState({
