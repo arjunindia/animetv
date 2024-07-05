@@ -1,4 +1,7 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import type { ISearch, IAnimeResult } from "@consumet/extensions";
 import {
@@ -8,6 +11,7 @@ import {
   setFocus,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { useCallback, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -15,17 +19,7 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const { url } = Route.useRouteContext();
-  const {
-    data,
-    status,
-    error,
-    isError,
-    isLoading,
-    isFetching,
-    isFetchingNextPage,
-    hasNextPage,
-    fetchNextPage,
-  } = useInfiniteQuery({
+  const queryRes = useInfiniteQuery({
     queryKey: ["fetchTopAnime"],
     queryFn: async ({ pageParam }): Promise<ISearch<IAnimeResult>> => {
       try {
@@ -46,6 +40,7 @@ function App() {
           : 2
         : null,
   });
+  const { data, status, error, isError, isLoading } = queryRes;
   const { ref, focusKey } = useFocusable();
   const onAssetFocus = useCallback(
     ({ y }: { y: number }) => {
@@ -86,28 +81,16 @@ function App() {
     );
   return (
     <FocusContext.Provider value={focusKey}>
-      <div className="p-4">
+      <div className="p-4" ref={ref}>
         <h1 className="text-3xl font-bold">Home</h1>
-        <div className="flex flex-wrap" ref={ref}>
+        <div className="flex flex-wrap">
           {data?.pages.map((group) =>
             group.results.map((result) => (
               <Anime key={result.id} result={result} onFocus={onAssetFocus} />
             )),
           )}
         </div>
-        <div>
-          <button
-            onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage
-              ? "Loading more..."
-              : hasNextPage
-                ? "Load More"
-                : "Nothing more to load"}
-          </button>
-        </div>
-        <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+        <LoadMore res={queryRes} />
       </div>
     </FocusContext.Provider>
   );
@@ -151,5 +134,32 @@ const Anime = ({
             : result.title.romaji}
       </p>
     </Link>
+  );
+};
+
+const LoadMore = ({
+  res: { fetchNextPage, hasNextPage, isFetchingNextPage, isFetching },
+}: {
+  res: UseInfiniteQueryResult;
+}) => {
+  const { ref, focused } = useFocusable();
+  return (
+    <div>
+      <div>
+        <Button
+          ref={ref}
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+          className={focused ? "outline outline-primary" : ""}
+        >
+          {isFetchingNextPage
+            ? "Loading more..."
+            : hasNextPage
+              ? "Load More"
+              : "Nothing more to load"}
+        </Button>
+      </div>
+      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+    </div>
   );
 };
