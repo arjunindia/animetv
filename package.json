@@ -1,0 +1,14 @@
+{
+  "name": "AnimeTV",
+  "appName": "AnimeTV",
+  "version": "0.0.1",
+  "main": "index.html",
+  "type": "module",
+  "packageType": "app",
+  "appPath": "index.html",
+  "keys": [
+    "MediaPlayPause"
+  ],
+  "description": "Custom built UI to browse Anime in Smart TVs",
+  "author":"arjun"
+}
