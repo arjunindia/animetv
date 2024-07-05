@@ -5,7 +5,7 @@ import {
 } from "@noriginmedia/norigin-spatial-navigation";
 import { createFileRoute } from "@tanstack/react-router";
 import { Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReactPlayer, { FilePlayerProps } from "react-player/file";
 import { BackButton, PlayButton } from "./-player/player-buttons";
 import { PLayerSeek } from "./-player/player-seek";
@@ -65,16 +65,32 @@ function Player() {
       duration.current = videoRef.current.getDuration();
     }
   }, [videoRef, duration]);
+  const activate = useCallback(() => {
+    setHidden(false);
+  }, [hidden, setHidden]);
   useEffect(() => {
-    if (!hidden) {
-      let timeout = setTimeout(() => {
+    let timeout = null;
+    if (videoState.playing)
+      timeout = setTimeout(() => {
         setHidden(true);
-      }, 5000);
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
+      }, 6000);
+    () => {
+      if (timeout) clearTimeout(timeout);
+    };
   }, [hidden]);
+  useEffect(() => {
+    document.addEventListener("click", activate);
+    document.addEventListener("mousemove", activate);
+    document.addEventListener("keydown", activate);
+    return () => {
+      document.removeEventListener("click", activate);
+      document.removeEventListener("mousemove", activate);
+      document.removeEventListener("keydown", activate);
+    };
+  }, [activate]);
+  useEffect(() => {
+    if (!videoState.playing) setHidden(false);
+  }, [videoState.playing]);
   const playPauseHandler = () => {
     //plays and pause the video (toggling)
     setVideoState({ ...videoState, playing: !videoState.playing });

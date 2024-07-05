@@ -142,7 +142,9 @@ const LoadMore = ({
 }: {
   res: UseInfiniteQueryResult;
 }) => {
-  const { ref, focused } = useFocusable();
+  const { ref, focused } = useFocusable({
+    onEnterRelease: fetchNextPage,
+  });
   return (
     <div>
       <div>
