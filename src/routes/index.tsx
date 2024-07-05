@@ -18,6 +18,7 @@ function App() {
   const {
     data,
     status,
+    error,
     isError,
     isLoading,
     isFetching,
@@ -27,11 +28,15 @@ function App() {
   } = useInfiniteQuery({
     queryKey: ["fetchTopAnime"],
     queryFn: async ({ pageParam }): Promise<ISearch<IAnimeResult>> => {
-      const res = await fetch(`${url}/list?p=${pageParam}`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
+      try {
+        const res = await fetch(`${url}/list?p=${pageParam}`);
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return await res.json();
+      } catch (e) {
+        throw e;
       }
-      return await res.json();
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>
@@ -61,7 +66,13 @@ function App() {
     return (
       <>
         <div className="p-4">
-          <p>Error: Server Error</p>
+          <p>Error</p>
+          <br />
+          <p> name: {error.name}</p>
+          <br />
+          <p>Message: {error.message}</p>
+          <br />
+          <pre>{error.stack}</pre>
         </div>
       </>
     );

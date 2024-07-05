@@ -25,7 +25,7 @@ const router = createRouter({
   routeTree,
   context: {
     queryClient,
-    url: "http://ani-test-ver.deno.dev",
+    url: "https://ani-test-ver.deno.dev",
   },
   defaultPreload: "intent",
   history: hashHistory,
