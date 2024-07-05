@@ -40,10 +40,16 @@ function Player() {
   const sourceData = useSuspenseQuery(postsQueryOptions(episode, url));
   const { ref, focusKey, focusSelf } = useFocusable({
     isFocusBoundary: true,
+    onArrowPress: () => {
+      setHidden(false);
+      return true;
+    },
     focusBoundaryDirections: ["up", "down"],
   });
   const videoRef = useRef<FilePlayerProps["ref"]>(null);
+  const controlRef = useRef<HTMLDivElement>(null);
   const duration = useRef(0);
+  const [hidden, setHidden] = useState(false);
   const [videoState, setVideoState] = useState({
     playing: false,
     muted: false,
@@ -60,6 +66,16 @@ function Player() {
       duration.current = videoRef.current.getDuration();
     }
   }, [videoRef, duration]);
+  useEffect(() => {
+    if (!hidden) {
+      let timeout = setTimeout(() => {
+        setHidden(true);
+      }, 5000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [hidden]);
   const playPauseHandler = () => {
     //plays and pause the video (toggling)
     setVideoState({ ...videoState, playing: !videoState.playing });
@@ -125,18 +141,22 @@ function Player() {
           //   },
           // }}
         />
-        <PlayButton
-          playing={videoState.playing}
-          onPlayPause={playPauseHandler}
-        />
-        <BackButton />
-        <PLayerSeek
-          played={videoState.played}
-          onSeek={seekHandler}
-          onSeekUp={seekCompleteHandler}
-          forward={fastFowardHandler}
-          rewind={rewindHandler}
-        />
+        <div
+          className={`transition-opacity ${hidden ? "opacity-0" : "opacity-100"}`}
+        >
+          <PlayButton
+            playing={videoState.playing}
+            onPlayPause={playPauseHandler}
+          />
+          <BackButton />
+          <PLayerSeek
+            played={videoState.played}
+            onSeek={seekHandler}
+            onSeekUp={seekCompleteHandler}
+            forward={fastFowardHandler}
+            rewind={rewindHandler}
+          />
+        </div>
       </div>
     </FocusContext.Provider>
   );

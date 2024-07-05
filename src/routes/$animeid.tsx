@@ -90,7 +90,7 @@ const Episode = ({ episode }: { episode: IAnimeEpisode }) => {
       ref={ref}
     >
       <div
-        className={`group-focus:scale-105 ${focused ? "scale-105" : ""} w-[30vw] p-3 ${episode.isFiller ? `bg-red-600` : `bg-popover-foreground`} text-popover rounded relative`}
+        className={`group-focus:scale-105 ${focused ? "scale-105" : ""} w-[30vw] p-3 ${episode.isFiller ? `bg-red-600` : `bg-popover-foreground`} text-popover mb-2 rounded relative`}
       >
         <p className="font-bold">Episode {episode.number}</p>
         <p>{episode.description}</p>

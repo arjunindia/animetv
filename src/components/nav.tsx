@@ -40,7 +40,7 @@ const NavLink = ({
           <Link
             ref={ref}
             to={`/${name.toLowerCase() === "home" ? "" : name.toLowerCase()}`}
-            className={`flex h-9 w-9 items-center justify-center [&.active]:bg-secondary rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${focused ? "outline outline-primary" : "button"}`}
+            className={`flex mb-6 h-9 w-9 items-center justify-center [&.active]:bg-secondary rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${focused ? "outline outline-primary" : "button"}`}
           >
             <Icon className="h-5 w-5" />
             <span className="sr-only">{name}</span>
