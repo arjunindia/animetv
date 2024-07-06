@@ -11,7 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TableImport } from './routes/table'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as SearchImport } from './routes/search'
 import { Route as QueryImport } from './routes/query'
@@ -20,11 +19,6 @@ import { Route as AnimeidImport } from './routes/$animeid'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
-
-const TableRoute = TableImport.update({
-  path: '/table',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const SettingsRoute = SettingsImport.update({
   path: '/settings',
@@ -102,13 +96,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsImport
       parentRoute: typeof rootRoute
     }
-    '/table': {
-      id: '/table'
-      path: '/table'
-      fullPath: '/table'
-      preLoaderRoute: typeof TableImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -121,7 +108,6 @@ export const routeTree = rootRoute.addChildren({
   QueryRoute,
   SearchRoute,
   SettingsRoute,
-  TableRoute,
 })
 
 /* prettier-ignore-end */
@@ -137,8 +123,7 @@ export const routeTree = rootRoute.addChildren({
         "/player",
         "/query",
         "/search",
-        "/settings",
-        "/table"
+        "/settings"
       ]
     },
     "/": {
@@ -158,9 +143,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/settings": {
       "filePath": "settings.tsx"
-    },
-    "/table": {
-      "filePath": "table.tsx"
     }
   }
 }
