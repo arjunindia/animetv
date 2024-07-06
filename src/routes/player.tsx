@@ -50,7 +50,7 @@ function Player() {
   const duration = useRef(0);
   const [hidden, setHidden] = useState(false);
   const [videoState, setVideoState] = useState({
-    playing: false,
+    playing: true,
     muted: false,
     played: 0,
     seeking: false,
@@ -67,7 +67,7 @@ function Player() {
   }, [videoRef, duration]);
   const activate = useCallback(() => {
     setHidden(false);
-  }, [hidden, setHidden]);
+  }, [setHidden]);
   useEffect(() => {
     let timeout = null;
     if (videoState.playing)
@@ -81,11 +81,18 @@ function Player() {
   useEffect(() => {
     document.addEventListener("click", activate);
     document.addEventListener("mousemove", activate);
-    document.addEventListener("keydown", activate);
+    document.addEventListener("ArrowUp", activate);
+    document.addEventListener("ArrowDown", activate);
+    document.addEventListener("ArrowLeft", activate);
+    document.addEventListener("ArrowRight", activate);
     return () => {
       document.removeEventListener("click", activate);
       document.removeEventListener("mousemove", activate);
       document.removeEventListener("keydown", activate);
+      document.removeEventListener("ArrowUp", activate);
+      document.removeEventListener("ArrowDown", activate);
+      document.removeEventListener("ArrowLeft", activate);
+      document.removeEventListener("ArrowRight", activate);
     };
   }, [activate]);
   useEffect(() => {
