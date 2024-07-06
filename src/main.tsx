@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
 import {
-  createHashHistory,
+  createMemoryHistory,
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
@@ -19,7 +19,7 @@ export const queryClient = new QueryClient({
   },
 });
 // Hash based routing
-const hashHistory = createHashHistory();
+const hashHistory = createMemoryHistory();
 // Create a new router instance
 const router = createRouter({
   routeTree,
