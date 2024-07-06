@@ -77,7 +77,7 @@ function Player() {
     () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [hidden]);
+  }, [hidden, videoState.playing]);
   useEffect(() => {
     document.addEventListener("click", activate);
     document.addEventListener("mousemove", activate);
@@ -167,11 +167,13 @@ function Player() {
           className={`transition-opacity ${hidden ? "opacity-0" : "opacity-100"}`}
         >
           <PlayButton
+            activate={activate}
             playing={videoState.playing}
             onPlayPause={playPauseHandler}
           />
-          <BackButton />
+          <BackButton activate={activate} />
           <PLayerSeek
+            activate={activate}
             played={videoState.played}
             onSeek={seekHandler}
             onSeekUp={seekCompleteHandler}

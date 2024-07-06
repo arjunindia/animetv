@@ -2,18 +2,24 @@ import { Button } from "@/components/ui/button";
 import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useRouter } from "@tanstack/react-router";
 import { ArrowLeft, PauseIcon, Play } from "lucide-react";
+import { useCallback } from "react";
 
 export const PlayButton = ({
   playing,
   onPlayPause,
+  activate,
 }: {
   playing: boolean;
   onPlayPause: () => void;
+  activate: () => void;
 }) => {
+  const onEnterRelease = useCallback(() => {
+    onPlayPause();
+    if (!playing) activate;
+  }, [onPlayPause, activate]);
   const { ref, focused } = useFocusable({
-    onEnterRelease: () => {
-      onPlayPause();
-    },
+    onEnterRelease,
+    onFocus: activate,
     focusKey: "VideoPlay",
   });
   return (
@@ -27,10 +33,11 @@ export const PlayButton = ({
   );
 };
 
-export const BackButton = () => {
+export const BackButton = ({ activate }: { activate: () => void }) => {
   const { history } = useRouter();
   const { ref, focused } = useFocusable({
     onEnterRelease: () => history.back(),
+    onFocus: activate,
   });
   return (
     <Button

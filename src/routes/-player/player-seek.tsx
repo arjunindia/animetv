@@ -7,15 +7,18 @@ export const PLayerSeek = ({
   onSeekUp,
   forward,
   rewind,
+  activate,
 }: {
   played: number;
   onSeek: (value: number[]) => void;
   onSeekUp: (value: number[]) => void;
   forward: () => void;
   rewind: () => void;
+  activate: () => void;
 }) => {
   const { ref, focused } = useFocusable({
     onArrowPress: (direction) => {
+      activate();
       if (direction === "left") {
         rewind();
         return false;
@@ -26,6 +29,7 @@ export const PLayerSeek = ({
       }
       return true;
     },
+    onFocus: activate,
   });
   return (
     <div className="">
