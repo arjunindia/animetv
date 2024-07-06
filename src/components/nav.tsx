@@ -80,7 +80,6 @@ export const Nav = () => {
           <NavLink name="Home" Icon={Home} />
           <NavLink name="Search" Icon={Search} />
           <NavLink name="Query" Icon={Dog} />
-          <NavLink name="Table" Icon={Table} />
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <NavLink name="Settings" Icon={Settings} />
