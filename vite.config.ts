@@ -23,6 +23,9 @@ export default defineConfig({
   build: {
     target: "es5",
   },
+  esbuild: {
+    legalComments: "none",
+  },
   base: "./",
   resolve: {
     alias: {
