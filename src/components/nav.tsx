@@ -7,7 +7,7 @@ import {
 
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Home, Package2, Search, Settings, Dog } from "lucide-react";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import {
   useFocusable,
   FocusContext,
@@ -20,6 +20,11 @@ const NavLink = ({
   name: string;
 }) => {
   const navigate = useNavigate();
+  const handleEnter = useCallback(() => {
+    navigate({
+      to: `/${name.toLowerCase() === "home" ? "" : name.toLowerCase()}`,
+    });
+  }, [navigate]);
   const { ref, focused } = useFocusable({
     onFocus: () => {
       ref.current.focus();
@@ -27,11 +32,7 @@ const NavLink = ({
     onBlur: () => {
       ref.current.blur();
     },
-    onEnterRelease: () => {
-      navigate({
-        to: `/${name.toLowerCase() === "home" ? "" : name.toLowerCase()}`,
-      });
-    },
+    onEnterRelease: handleEnter,
   });
   return (
     <TooltipProvider>
@@ -52,6 +53,7 @@ const NavLink = ({
   );
 };
 
+const MemoNavLink = memo(NavLink);
 export const Nav = () => {
   const { ref, focusKey, focusSelf } = useFocusable({
     forceFocus: true,
@@ -77,12 +79,12 @@ export const Nav = () => {
             <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
             <span className="sr-only">Acme Inc</span>
           </Link>
-          <NavLink name="Home" Icon={Home} />
-          <NavLink name="Search" Icon={Search} />
-          <NavLink name="Query" Icon={Dog} />
+          <MemoNavLink name="Home" Icon={Home} />
+          <MemoNavLink name="Search" Icon={Search} />
+          <MemoNavLink name="Query" Icon={Dog} />
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <NavLink name="Settings" Icon={Settings} />
+          <MemoNavLink name="Settings" Icon={Settings} />
         </nav>
       </aside>
     </FocusContext.Provider>

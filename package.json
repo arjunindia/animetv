@@ -55,6 +55,7 @@
     "terser": "^5.31.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
+    "vite-plugin-mkcert": "^1.17.5",
     "vite-plugin-singlefile": "^2.0.2"
   }
 }

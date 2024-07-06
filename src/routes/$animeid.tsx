@@ -11,7 +11,7 @@ import {
   useFocusable,
   FocusContext,
 } from "@noriginmedia/norigin-spatial-navigation";
-import { useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 
 export const Route = createFileRoute("/$animeid")({
   component: Query,
@@ -21,13 +21,16 @@ function Query() {
   const { animeid } = Route.useParams();
   const { url } = Route.useRouteContext();
   const { data, status } = useQuery({
-    queryKey: ["fetchDogs"],
+    queryKey: ["EpisodesP", animeid],
     queryFn: async (): Promise<IAnimeInfo> => {
       const res = await fetch(`${url}/anime/${animeid}`);
       return await res.json();
     },
   });
-  const { ref, focusKey, focusSelf } = useFocusable();
+  const { ref, focusKey, focusSelf } = useFocusable({
+    autoRestoreFocus: true,
+    saveLastFocusedChild: true,
+  });
 
   useEffect(() => {
     focusSelf();
@@ -49,7 +52,7 @@ function Query() {
             <div className="absolute bottom-0 flex-1">
               <p className="max-w-prose ">{data.description}</p>
               <h2 className="text-6xl font-bold py-6">
-                {getTitleFromData(data.title)}
+                {getTitleFromData(data.title || "")}
               </h2>
             </div>
             <div
@@ -63,13 +66,15 @@ function Query() {
           </div>
         </FocusContext.Provider>
       ) : (
-        <p>Working...</p>
+        <p className="text-xl p-4">
+          {status === "pending" ? "Loading..." : "Error Loading!"}
+        </p>
       )}
     </div>
   );
 }
 
-const Episode = ({ episode }: { episode: IAnimeEpisode }) => {
+const EpisodeComponent = ({ episode }: { episode: IAnimeEpisode }) => {
   const navigate = useNavigate();
   const { ref, focused } = useFocusable({
     onFocus: () => {
@@ -99,6 +104,7 @@ const Episode = ({ episode }: { episode: IAnimeEpisode }) => {
     </Link>
   );
 };
+const Episode = memo(EpisodeComponent);
 const BackButton = () => {
   const { history } = useRouter();
   const onEnterRelease = useCallback(() => {

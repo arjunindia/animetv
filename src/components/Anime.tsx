@@ -4,9 +4,9 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { useNavigate, Link } from "@tanstack/react-router";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 
-export const Anime = ({
+const AnimeComponent = ({
   result,
   onFocus,
 }: {
@@ -44,3 +44,4 @@ export const Anime = ({
     </Link>
   );
 };
+export const Anime = memo(AnimeComponent);
