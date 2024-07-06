@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Home, Package2, Search, Settings, Table, Dog } from "lucide-react";
+import { Home, Package2, Search, Settings, Dog } from "lucide-react";
 import React from "react";
 import {
   useFocusable,
