@@ -47,7 +47,7 @@ function Player() {
     focusBoundaryDirections: ["up", "down"],
   });
   const videoRef = useRef<FilePlayerProps["ref"]>(null);
-  const duration = useRef(0);
+
   const [hidden, setHidden] = useState(false);
   const [videoState, setVideoState] = useState({
     playing: true,
@@ -60,11 +60,13 @@ function Player() {
     focusSelf();
     setFocus("VideoPlay");
   }, [focusSelf]);
-  useEffect(() => {
-    if (videoRef.current != null && videoRef.current.getDuration) {
-      duration.current = videoRef.current.getDuration();
-    }
-  }, [videoRef, duration]);
+
+  const duration = videoRef.current
+    ? new Date(1000 * videoRef.current.getDuration())
+        .toISOString()
+        .substring(11, 19)
+    : "00:00:00";
+
   const activate = useCallback(() => {
     setHidden(false);
   }, [setHidden]);
@@ -174,6 +176,7 @@ function Player() {
           <BackButton activate={activate} />
           <PLayerSeek
             activate={activate}
+            timeEnd={duration}
             played={videoState.played}
             onSeek={seekHandler}
             onSeekUp={seekCompleteHandler}

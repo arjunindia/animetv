@@ -3,6 +3,7 @@ import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 
 export const PLayerSeek = ({
   played,
+  timeEnd,
   onSeek,
   onSeekUp,
   forward,
@@ -10,6 +11,7 @@ export const PLayerSeek = ({
   activate,
 }: {
   played: number;
+  timeEnd: string;
   onSeek: (value: number[]) => void;
   onSeekUp: (value: number[]) => void;
   forward: () => void;
@@ -43,6 +45,11 @@ export const PLayerSeek = ({
         onValueCommit={onSeekUp}
         onValueChange={onSeek}
       />
+      <span
+        className={`bg-white text-black absolute left-[88%] px-2 py-1 translate-y-1/3 bottom-[10vh]  z-50`}
+      >
+        {timeEnd}
+      </span>
     </div>
   );
 };
