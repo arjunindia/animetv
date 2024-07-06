@@ -8,7 +8,6 @@
   "appPath": "index.html",
   "keys": [
     "MediaPlayPause",
-"Back"
   ],
   "description": "Custom built UI to browse Anime in Smart TVs",
   "author":"arjun"
