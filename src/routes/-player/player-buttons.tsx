@@ -19,7 +19,7 @@ export const PlayButton = ({
   return (
     <Button
       ref={ref}
-      className={`absolute bottom-5 -translate-x-1/2 left-1/2 ${focused ? "outline outline-4 p-4" : ""}`}
+      className={`absolute bottom-5 -translate-x-1/2 left-1/2 ${focused ? "outline outline-4" : ""}`}
       onClick={() => onPlayPause()}
     >
       {playing ? <PauseIcon /> : <Play />}
@@ -35,7 +35,7 @@ export const BackButton = () => {
   return (
     <Button
       ref={ref}
-      className={`absolute top-5 left-5 ${focused ? "outline outline-4 p-4" : ""}`}
+      className={`absolute top-5 left-5 ${focused ? "outline outline-4" : ""}`}
       onClick={() => history.back()}
     >
       <ArrowLeft />
