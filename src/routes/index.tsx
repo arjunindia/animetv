@@ -9,9 +9,10 @@ import {
   FocusContext,
   setFocus,
 } from "@noriginmedia/norigin-spatial-navigation";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Anime } from "@/components/Anime";
+import { useOnScreen } from "@/lib/useOnScreen";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -106,24 +107,22 @@ const LoadMore = ({
 }: {
   res: UseInfiniteQueryResult;
 }) => {
-  const { ref, focused } = useFocusable({
-    onEnterRelease: fetchNextPage,
-  });
+  const elementRef = useRef(null);
+  const isOnScreen = useOnScreen(elementRef);
+  useEffect(() => {
+    if (isOnScreen) fetchNextPage();
+  }, [isOnScreen]);
+
   return (
     <div>
       <div>
-        <Button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-          className={focused ? "outline outline-primary" : ""}
-        >
+        <div onClick={() => fetchNextPage()} ref={elementRef}>
           {isFetchingNextPage
             ? "Loading more..."
             : hasNextPage
               ? "Load More"
               : "Nothing more to load"}
-        </Button>
+        </div>
       </div>
       <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
     </div>
