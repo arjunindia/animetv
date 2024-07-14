@@ -7,15 +7,13 @@ import type { ISearch, IAnimeResult } from "@consumet/extensions";
 import {
   useFocusable,
   FocusContext,
-  setFocus,
 } from "@noriginmedia/norigin-spatial-navigation";
-import { useCallback, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { Anime } from "@/components/Anime";
 import { useOnScreen } from "@/lib/useOnScreen";
 
 export const Route = createFileRoute("/")({
-  component: App,
+  component: memo(App),
 });
 
 function App() {
@@ -42,13 +40,13 @@ function App() {
         : null,
   });
   const { data, status, error, isError, isLoading } = queryRes;
-  const { ref, focusKey } = useFocusable({
+  const { ref, focusKey, focusSelf } = useFocusable({
     trackChildren: true,
     saveLastFocusedChild: true,
+    autoRestoreFocus: true,
   });
   const onAssetFocus = useCallback(
     ({ y }: { y: number }) => {
-      console.log(y);
       window.scrollTo({
         top: y,
         behavior: "smooth",
@@ -58,8 +56,8 @@ function App() {
   );
 
   useEffect(() => {
-    setFocus("ROOT_FOCUS_KEY");
-  }, []);
+    focusSelf();
+  }, [focusSelf, data]);
 
   if (isError)
     return (

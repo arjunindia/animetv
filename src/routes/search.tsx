@@ -33,7 +33,6 @@ function Query() {
   });
   const onAssetFocus = useCallback(
     ({ y }: { y: number }) => {
-      console.log(y);
       window.scrollTo({
         top: y,
         behavior: "smooth",

@@ -18,7 +18,11 @@ const AnimeComponent = ({
     navigate({ to: `/${result.id}` });
   }, [navigate]);
 
-  const { ref, focused } = useFocusable({ onFocus, onEnterRelease });
+  const { ref, focused } = useFocusable({
+    onFocus,
+    onEnterRelease,
+    autoRestoreFocus: true,
+  });
   return (
     <Link
       ref={ref}

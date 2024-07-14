@@ -95,7 +95,7 @@ const EpisodeComponent = ({ episode }: { episode: IAnimeEpisode }) => {
       ref={ref}
     >
       <div
-        className={`group-focus:scale-105 ${focused ? "scale-105 outline outline-3" : ""} w-[30vw] p-3 ${episode.isFiller ? `bg-red-600` : `bg-popover-foreground`} text-popover mb-2 rounded relative`}
+        className={`group-focus:scale-105 ${focused ? "scale-105" : ""} w-[30vw] p-3 ${episode.isFiller ? `bg-red-600` : `bg-popover-foreground`} text-popover mb-2 rounded relative`}
       >
         <p className="font-bold">Episode {episode.number}</p>
         <p>{episode.description}</p>
@@ -106,9 +106,9 @@ const EpisodeComponent = ({ episode }: { episode: IAnimeEpisode }) => {
 };
 const Episode = memo(EpisodeComponent);
 const BackButton = () => {
-  const navigate = useNavigate();
+  const { history } = useRouter();
   const onEnterRelease = useCallback(() => {
-    navigate({ to: ".." });
+    history.back();
   }, [history]);
 
   const { ref, focused } = useFocusable({ onEnterRelease });
@@ -116,7 +116,7 @@ const BackButton = () => {
     <Link
       ref={ref}
       to=".."
-      className={`bg-background shadow-xl rounded-full p-3 h-min m-3 mt-5 ${focused ? "outline outline-ring scale-110 outline-4" : ""}`}
+      className={`bg-background shadow-xl rounded-full p-3 h-min m-3 mt-5 ${focused ? "outline outline-ring scale-110" : ""}`}
     >
       <ArrowLeft />
     </Link>
