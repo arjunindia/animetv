@@ -1,11 +1,6 @@
 import type { IAnimeInfo, IAnimeEpisode, ITitle } from "@consumet/extensions";
 import { useQuery } from "@tanstack/react-query";
-import {
-  createFileRoute,
-  Link,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { CirclePlayIcon, ArrowLeft } from "lucide-react";
 import {
   useFocusable,
